@@ -26,7 +26,7 @@ class WorkTimerApp extends StatelessWidget {
 }
 
 class StopwatchApp extends StatefulWidget {
-  final List<String> tasks = new List<String>();
+  final List<String> tasks = <String>[];
   StopwatchApp({title: String}) {
     initializeTaskList();
   }
@@ -55,7 +55,7 @@ class StopwatchApp extends StatefulWidget {
 }
 
 class _StopwatchAppState extends State<StopwatchApp> {
-  final List<Stopwatch> watches = new List<Stopwatch>();
+  final List<Stopwatch> watches = <Stopwatch>[];
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class _StopwatchAppState extends State<StopwatchApp> {
         title: Text('Gotta Go Fast'),
       ),
       body: ListView.builder(
-        itemCount: 14,
+        itemCount: widget.tasks.length,
         itemBuilder: (BuildContext context, int count) {
           watches.add(new Stopwatch());
           bool active = !watches.elementAt(count).paused;
@@ -75,11 +75,11 @@ class _StopwatchAppState extends State<StopwatchApp> {
               child: ListTile(
                 title: Text(watches.elementAt(count).elapseString(), 
                         style: Theme.of(context).textTheme.headline,),
-                // subtitle: watches.elementAt(count).name,
+                subtitle: Text(widget.tasks.elementAt(count)),
                 trailing: CircleAvatar(child: Text((count + 1).toString())),
                 onTap: () => toggleStopwatch(count),
               ),
-              color: active ? Colors.lightGreen : Colors.white,
+              color: active ? Colors.greenAccent : Colors.white,
             ),
             padding: const EdgeInsets.symmetric(vertical: 10.0),
           );
@@ -91,7 +91,6 @@ class _StopwatchAppState extends State<StopwatchApp> {
   void toggleStopwatch(int index) {
     setState(() { 
       watches.elementAt(index).toggle();
-
     });
   }
 }

@@ -39,9 +39,11 @@ class Stopwatch {
 
   void toggle() {
     if (paused) {
+      // print('DEBUG: starting stopwatch');
       start();
-    } else
+    } else {
       pause();
+    }
   }
 
   String elapseString() {
