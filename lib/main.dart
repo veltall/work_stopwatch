@@ -36,6 +36,7 @@ class StopwatchApp extends StatefulWidget {
     
   void initializeTaskList() {
     tasks.add('PREP:        pulling board');
+    tasks.add('EXTRA:       checking');
     tasks.add('BREAKDOWN:   cleaning');
     tasks.add('STOCK:       cleaning');
     tasks.add('BREAKDOWN:   pet');
@@ -76,7 +77,7 @@ class _StopwatchAppState extends State<StopwatchApp> {
                 title: Text(watches.elementAt(count).elapseString(), 
                         style: Theme.of(context).textTheme.headline,),
                 subtitle: Text(widget.tasks.elementAt(count)),
-                trailing: CircleAvatar(child: Text((count + 1).toString())),
+                trailing: CircleAvatar(child: Text(widget.tasks[count].substring(0,1))),
                 onTap: () => toggleStopwatch(count),
               ),
               color: active ? Colors.greenAccent : Colors.white,
