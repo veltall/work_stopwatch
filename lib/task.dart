@@ -1,6 +1,7 @@
 import 'stopwatch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
+import 'package:date_format/date_format.dart';
 
 enum task_type {
   preparation,
@@ -150,34 +151,34 @@ class Task {
     'F-1': 15
   };
 
-  static const Map<String,String> dict = {
+  static const Map<String, String> dict = {
     'Preparation-': 'Preparation',
-    'Checking-':    'Checking',
-    'S-13-C':       'Spotting Aisle 13 - cleaning',
-    'S-13-P':       'Spotting Aisle 13 - pet', // breaking, aisle 13, pet side
-    'T-13-C':       'Throwing Aisle 13 - cleaning',
-    'T-13-P':       'Throwing Aisle 13 - pet',
-    'C-13':         'Cleanup Aisle 13',
-    'T-6':          'Throwing Aisle 6',
-    'C-6':          'Cleanup Aisle 6',
-    'T-5':          'Throwing Aisle 5',
-    'T-4':          'Throwing Aisle 4',
-    'C-4':          'Cleanup Aisle 4',
-    'T-12':         'Throwing Aisle 12',
-    'Rest-':        'Lunch time',
-    'F-13':         'Facing Aisle 13',
-    'F-12':         'Facing Aisle 12',
-    'F-11':         'Facing Aisle 11',
-    'F-10':         'Facing Aisle 10',
-    'F-9':          'Facing Aisle 9',
-    'F-8':          'Facing Aisle 8',
-    'F-7':          'Facing Aisle 7',
-    'F-6':          'Facing Aisle 6',
-    'F-5':          'Facing Aisle 5',
-    'F-4':          'Facing Aisle 4',
-    'F-3':          'Facing Aisle 3',
-    'F-2':          'Facing Aisle 2',
-    'F-1':          'Facing Aisle 1',
+    'Checking-': 'Checking',
+    'S-13-C': 'Spotting Aisle 13 - cleaning',
+    'S-13-P': 'Spotting Aisle 13 - pet', // breaking, aisle 13, pet side
+    'T-13-C': 'Throwing Aisle 13 - cleaning',
+    'T-13-P': 'Throwing Aisle 13 - pet',
+    'C-13': 'Cleanup Aisle 13',
+    'T-6': 'Throwing Aisle 6',
+    'C-6': 'Cleanup Aisle 6',
+    'T-5': 'Throwing Aisle 5',
+    'T-4': 'Throwing Aisle 4',
+    'C-4': 'Cleanup Aisle 4',
+    'T-12': 'Throwing Aisle 12',
+    'Rest-': 'Lunch time',
+    'F-13': 'Facing Aisle 13',
+    'F-12': 'Facing Aisle 12',
+    'F-11': 'Facing Aisle 11',
+    'F-10': 'Facing Aisle 10',
+    'F-9': 'Facing Aisle 9',
+    'F-8': 'Facing Aisle 8',
+    'F-7': 'Facing Aisle 7',
+    'F-6': 'Facing Aisle 6',
+    'F-5': 'Facing Aisle 5',
+    'F-4': 'Facing Aisle 4',
+    'F-3': 'Facing Aisle 3',
+    'F-2': 'Facing Aisle 2',
+    'F-1': 'Facing Aisle 1',
   };
 
   static const List<String> agenda = [
@@ -214,24 +215,33 @@ class TaskWidget extends StatefulWidget {
 class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
-    Duration t = widget.task.watch.elapsed;
+    // Duration t = widget.task.watch.elapsed;
     String sub = Task.dict[widget.task.id];
-    if(widget.task.startTime != null) sub += "\nStarted: " + widget.task.startTime.toString().split('.')[0].split(' ')[1];
+    if (widget.task.startTime != null) {
+      sub += "\nStarted: " + formatDate(widget.task.startTime, [hh,':',nn,':',ss, ' ',am]);
+    }
+          
     return Container(
-      child: Card(
-        color: (widget.task.isActive()) ? Colors.greenAccent : Colors.white,
-        child: ListTile(
-          isThreeLine: true,
-          title: TimerText(stopwatch: widget.task.watch,),
-          // title: t==null? Text("00:00") : Text(t.toString().split('.')[0]),
-          // String subtitle = "Started: " + widget.task.startTime.toString().split('.')[0].split(' ')[0]
-          subtitle: Text(sub),
-          trailing: CircleAvatar(
-            child: Text(widget.task.loadSize.toString()),
-          ),
-          onTap: handleOntap,
-          onLongPress: () => handleLongpress(context),
+      height: 118.0,
+      child: ListTile(
+        contentPadding: const EdgeInsetsDirectional.only(top: 8.0, bottom: 16.0, start: 8.0, end: 8.0),
+        title: TimerText(stopwatch: widget.task.watch),
+        // title: t==null? Text("00:00") : Text(t.toString().split('.')[0]),
+        // String subtitle = "Started: " + widget.task.startTime.toString().split('.')[0].split(' ')[0]
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Text(sub,
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              )),
         ),
+        trailing: CircleAvatar(
+          child: Text(widget.task.loadSize.toString()),
+        ),
+        onTap: handleOntap,
+        onLongPress: () => handleLongpress(context),
       ),
     );
   }
@@ -239,15 +249,18 @@ class _TaskWidgetState extends State<TaskWidget> {
   void handleOntap() {
     setState(() => widget.task.toggle());
   }
+
   void handleLongpress(BuildContext context) async {
-    // long press to edit load size    
+    // long press to edit load size
     Duration currentDur = new Duration(minutes: widget.task.loadSize);
     Duration newDuration = await showDurationPicker(
       context: context,
       initialTime: currentDur,
     );
     int newSize = newDuration.inMinutes;
-    Scaffold.of(context).showSnackBar(new SnackBar(content: Text('Set duration: $newSize minutes'),));
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: Text('Set duration: $newSize minutes'),
+    ));
     setState(() {
       widget.task.loadSize = newSize;
     });

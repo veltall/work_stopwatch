@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:date_format/date_format.dart';
 
-/**
- * Stole this file online to implement the routine callbacks
- * that update the timer text.
- */
+/// Stole this file online to implement the routine callbacks
+/// that update the timer text.
 
 class ElapsedTime {
   final int hundreds;
@@ -17,7 +16,6 @@ class ElapsedTime {
     this.minutes,
   });
 }
-
 
 class TimerText extends StatefulWidget {
   TimerText({this.stopwatch});
@@ -56,18 +54,23 @@ class TimerTextState extends State<TimerText> {
       //   seconds: seconds,
       //   minutes: minutes,
       // );
-      if(stopwatch.isRunning) {
-        setState(() {
-                  
-        });
+      if (stopwatch.isRunning) {
+        setState(() {});
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle timerTextStyle = const TextStyle(fontSize: 35.0, fontFamily: "Open Sans");
-    String formattedTime = TimerTextFormatter.format(stopwatch.elapsedMilliseconds);
+    final TextStyle timerTextStyle = TextStyle(
+      fontSize: 40.0,
+      // fontFamily: "Lato",
+      color: stopwatch.isRunning ? Theme.of(context).primaryColor : Colors.grey,
+      fontWeight: stopwatch.isRunning ? FontWeight.bold : FontWeight.normal,
+      letterSpacing: 2.0,
+    );
+    String formattedTime =
+        TimerTextFormatter.format(stopwatch.elapsedMilliseconds);
     return new Text(formattedTime, style: timerTextStyle);
   }
 }
@@ -152,7 +155,7 @@ class TimerTextFormatter {
     String secondsStr = (seconds % 60).toString().padLeft(2, '0');
     // String hundredsStr = (hundreds % 100).toString().padLeft(2, '0');
 
-    // return "$minutesStr:$secondsStr.$hundredsStr"; 
-    return "$minutesStr:$secondsStr"; 
+    // return "$minutesStr:$secondsStr.$hundredsStr";
+    return "$minutesStr:$secondsStr";
   }
 }
