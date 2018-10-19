@@ -1,6 +1,6 @@
+import 'stopwatch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
-import 'stopwatch.dart';
 
 enum task_type {
   preparation,
