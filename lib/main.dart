@@ -10,14 +10,6 @@ class WorkTimerApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Work Tools',
       theme: new ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
         fontFamily: 'Lato',
       ),
@@ -41,8 +33,8 @@ class _StopwatchHomeScreenState extends State<StopwatchHomeScreen> {
         title: Text(title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.save),
-            onPressed: null,
+            icon: Icon(Icons.sync),
+            onPressed: () => _syncFirestore(),
           ),
           IconButton(
             icon: Icon(Icons.edit),
@@ -73,5 +65,10 @@ class _StopwatchHomeScreenState extends State<StopwatchHomeScreen> {
         ),
       ),
     );
+  }
+
+  void _syncFirestore() {
+    print('syncing..');
+    print(new DateTime.now().toString());
   }
 }

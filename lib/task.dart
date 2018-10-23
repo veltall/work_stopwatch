@@ -218,13 +218,15 @@ class _TaskWidgetState extends State<TaskWidget> {
     // Duration t = widget.task.watch.elapsed;
     String sub = Task.dict[widget.task.id];
     if (widget.task.startTime != null) {
-      sub += "\nStarted: " + formatDate(widget.task.startTime, [hh,':',nn,':',ss, ' ',am]);
+      sub += "\nStarted: " +
+          formatDate(widget.task.startTime, [hh, ':', nn, ':', ss, ' ', am]);
     }
-          
+
     return Container(
       height: 118.0,
       child: ListTile(
-        contentPadding: const EdgeInsetsDirectional.only(top: 8.0, bottom: 16.0, start: 8.0, end: 8.0),
+        contentPadding: const EdgeInsetsDirectional.only(
+            top: 8.0, bottom: 16.0, start: 8.0, end: 8.0),
         title: TimerText(stopwatch: widget.task.watch),
         // title: t==null? Text("00:00") : Text(t.toString().split('.')[0]),
         // String subtitle = "Started: " + widget.task.startTime.toString().split('.')[0].split(' ')[0]
@@ -257,6 +259,11 @@ class _TaskWidgetState extends State<TaskWidget> {
       context: context,
       initialTime: currentDur,
     );
+    if (newDuration == null) {
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: Text('Cancelled.'),
+      )); return;
+    }
     int newSize = newDuration.inMinutes;
     Scaffold.of(context).showSnackBar(new SnackBar(
       content: Text('Set duration: $newSize minutes'),

@@ -1,0 +1,36 @@
+{
+    "10222018" : {
+        "is_load_night" : true,
+        "load_size": 500,
+        "agenda":["Preparation-","Checking-","S-13-C","S-13-P","T-13-C","T-13-P","C-13","T-6","C-6","T-5","T-4","C-4","T-12","Rest-","F-13","F-12","F-10","F-9","F-8","F-7"],
+        "performance_record": [
+            {
+                "id":"S-13-C",
+                "start_time_ms_since_epoch":"54534565465656",
+                "activity_type":"spotting",
+                "target":"Aisle 13 - Cleaning sections",
+                "activity_load": 50,
+                "time_taken_in_minutes":15,
+                "goal_time_in_minutes": 20
+            },
+            {
+                "id":"T-13-C",
+                "start_time_ms_since_epoch":"54534565465656",
+                "activity_type":"throwing",
+                "target":"Aisle 13 - Cleaning sections",
+                "activity_load": 50,
+                "time_taken_in_minutes":50,
+                "goal_time_in_minutes": 50
+            },
+            {
+                "id":"T-6",
+                "start_time_ms_since_epoch":"54534565465656",
+                "activity_type":"throwing",
+                "target":"Aisle 6",
+                "activity_load": 35,
+                "time_taken_in_minutes":40,
+                "goal_time_in_minutes": 35
+            }
+        ]
+    }
+}
